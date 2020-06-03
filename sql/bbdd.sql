@@ -9,7 +9,6 @@ CREATE TABLE `elmundode`.`bebe` (
     `apellidosBebe` VARCHAR (50) NOT NULL,
     `fechaNacimiento` DATE NOT NULL,
     `horaNacimiento` TIME NOT NULL,
-    `hospitalNacimiento` VARCHAR (50),
     `lugarNacimiento` VARCHAR (50),
     `ciudadNacimiento` VARCHAR (50),
     `grupoSanguineo` ENUM('0 -', '0 +', 'A -', 'A +', 'B -', 'B +', 'AB -', 'AB +'),
