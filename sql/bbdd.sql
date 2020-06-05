@@ -42,6 +42,7 @@ CREATE TABLE `elmundode`.`progenitor` (
     `fechaNProgenitor`  DATE NOT NULL,
     `lugarNProgenitor` VARCHAR (50) NOT NULL,
     `descripcionProgenitor`VARCHAR (50) NOT NULL,
+    `imgProgenitor`INT NOT NULL,
     `idBebe` INT NOT NULL,
     CONSTRAINT ProgenitorUnico UNIQUE (nombreProgenitor, apellidosProgenitor, fechaNProgenitor, lugarNProgenitor)
 ) ENGINE = INNODB;
