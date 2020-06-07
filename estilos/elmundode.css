@@ -1,0 +1,231 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* Colores propios*/
+.blanco {
+	color: white !important;
+}
+
+
+.b_azulClaro {
+	background-color: #b0cff1;
+}
+
+.borde_azulClaro {
+	border-color: #b0cff1 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.azulClaro {
+	color: #b0cff1 !important;
+}
+
+.b_verde {
+	background-color: #008556 !important;
+}
+
+.borde_verde {
+	border-color: #008556 !important;
+	border-width: 2px !important;
+	background-color: white;
+
+}
+
+.verde {
+	color: #008556 !important;
+}
+
+.b_amarillo {
+	background-color: #ffc260;
+}
+
+.amarillo {
+	color: #ffc260 !important;
+}
+
+.borde_amarillo {
+	border-color: #ffc260 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.b_rosa {
+	background-color: #ffb2c7;
+}
+
+.rosa {
+	color: #ffb2c7 !important;
+}
+
+.borde_rosa {
+	border-color: #ffb2c7 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.b_lila {
+	background-color: #a360c3;
+}
+
+.borde_lila {
+	border-color: #a360c3 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.lila {
+	color: #a360c3 !important;
+}
+
+.b_azulOscuro {
+	background-color: #0372d3;
+}
+
+.borde_azulOscuro {
+	border-color: #0372d3 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.azulOscuro {
+	color: #0372d3 !important;
+}
+
+.borde_salmon {
+	border-color: #f76868 !important;
+	border-width: 2px !important;
+	background-color: white;
+}
+
+.b_salmon {
+	background-color: #f76868;
+}
+
+.salmon {
+	color: #f76868 !important;
+}
+
+.b_gris {
+	background-color: #DCDCDC;
+}
+
+.verdeClaro {
+	color: #70d44B !important;
+}
+
+/*Efectos*/
+.sombra {
+	box-shadow: 10px 15px 10px -10px rgba(25, 25, 25, 0.5);
+}
+
+/* Fuentes */
+
+body {
+	font-family: Montserrat, sans-serif;
+	font-size: 14px;
+}
+
+/*Logo*/
+
+
+/* SECTION 1*/
+/* Truco para colocar la imagen principal, primero como fondo y después como bloque*/
+.trucoImagen {
+	display: none;
+}
+
+.fondoImagen {
+	background-image: url(../img/elmundode/Recurso1.svg);
+	background-repeat: no-repeat;
+	background-size: contain;
+	min-height: 40vh;
+	background-position: bottom;
+}
+
+@media screen and (max-width:767px) {
+	.trucoImagen {
+		display: block;
+	}
+	
+	.fondoImagen{
+		background-image: url();
+	}
+}
+
+@media screen and (min-width:768px) {
+	.fondoImagen{
+		min-height: 30vh;
+	}
+}
+
+@media screen and (min-width:992px) {
+	.fondoImagen{
+		min-height: 40vh;
+	}
+}
+
+/* SECTION 2*/
+/*Ancho de las tarjetas*/
+.card {
+	width: 70%;
+	margin: auto;
+}
+
+
+/* FOOTER*/
+.textofooter {
+	color: white;
+	font-size: 0.8em;
+}
+
+footer hr {
+	background-color: white;
+	height: 1px;
+}
+
+footer ul {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+footer a {
+	color: white;
+}
+
+footer a:hover{
+	color:white;
+	text-decoration: none;
+}
+
+footer a:hover{
+	color: #ffc260;
+}
+
+
+/*CREAR_INDEX*/
+img[src*="saludos"] {
+	max-height: 275px;
+}
+
+
+/*CREAR*/
+
+.todoAlto{
+	min-height: 60vh;
+}
+
+/*Pestañas*/
+#myTab a {
+	color:white;
+	border: 1px solid white;
+}
+
+#myTab a.active{
+	color: #343a40;
+}
+
+#myTabContent .active {
+	background-color: white;
+}
