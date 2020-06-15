@@ -10,30 +10,39 @@
 <link rel="stylesheet" href="estilos/elmundode.css">
 <!-- Iconos -->
 <link rel="stylesheet" href="estilos/style.css">
+<!--Favicon-->
+<link rel="icon" type="image/png" href="img/elmundode/favicon.png" sizes="32x32">
 <title>El mundo de</title>
 </head>
 <body>
 	<!--MENÚ-->
-	<nav class="navbar navbar-light bg-white container-fluid">
-  		<a class="navbar-brand" href="index.html">
+		<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top container-fluid shadow-sm">
+		<a class="navbar-brand" href="index.html">
 			<img class="img-fluid" src="img/elmundode/elmundode_240x40.png" alt="El mundo de"/>
 		</a>
-  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
-    		<span class="navbar-toggler-icon"></span>
-  		</button>
-		  <div class="collapse navbar-collapse justify-content-center mb-3" id="menu">
-			<ul class="navbar-nav text-center">
-			  <li class="nav-item active b_gris text-uppercase mt-2 py-2" >
-				<a class="nav-link text-white font-weight-bold" href="index.html">Bienvenid@ <span class="sr-only">(current)</span></a>
-			  </li>
-			  <li class="nav-item b_gris text-uppercase mt-2 py-2">
-				<a class="nav-link text-white font-weight-bolder" href="crear_index.php">Crear</a>
-			  </li>
-			  <li class="nav-item b_gris text-uppercase mt-2 py-2">
-				<a class="nav-link text-white font-weight-bolder" href="visitar.php">Visitar</a>
-			  </li>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.html">Bienvenid@<span class="sr-only">(current)</span></a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="visitar.php">Visitar</a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="crear_index.php">Crear</a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="logout.php">Salir</a>
+				</li>
 			</ul>
-		  </div>
+		</div>
 	</nav>
 	<!--Fin menú-->
 	
@@ -58,24 +67,24 @@
 	<section class="container-fluid">
 		<div class="row">
 			<div class="col-md-6 b_amarillo">
-				<div class="card sombra my-5" >
+				<div class="card cardIndex sombra my-5" >
 					<img src="img/elmundode/Recurso2.svg" class="card-img-top" alt="Crea un mundo">
 					<div class="card-body">
 						<h5 class="card-title amarillo">Cuéntale sus primeros pasos</h5>
 						<p class="card-text">Guarda esas anécdotas y curiosidades para que después tus pequeños puedan 	disfrutar de ellas.</p>
 						<p class="card-text">Cuéntales más sobre su vida. Lo guardaremos todo en un cofre atemporal.</p>
-						<a href="crear_index.html" class="btn b_amarillo text-white">Crear</a>
+						<a href="crear_index.php" class="btn b_amarillo text-white">Crear</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6 b_verde">
-				<div class="card sombra my-5">
+				<div class="card cardIndex sombra my-5">
 					<img src="img/elmundode/Recurso3.svg" class="card-img-top" alt="Visita tu mundo">
 					<div class="card-body">
 						<h5 class="card-title verde">Adéntrate en la historia de tu vida</h5>
 						<p class="card-text">Tus padres han guardado para ti esos pequeños detalles que dieron sentido a tus primeros días.</p>
 						<p class="card-text">Anécdotas e historias de los primeros meses de tu vida a un solo click.</p>
-						<a href="#" class="btn b_verde text-white">Visitar</a>
+						<a href="visitar.php" class="btn b_verde text-white">Visitar</a>
 					</div>
 				</div>	
 			</div>
