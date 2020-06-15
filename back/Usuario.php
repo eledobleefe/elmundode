@@ -1,6 +1,6 @@
 <?php
 
-//Necesitamos acceso al código contenidUsuarioo en 'Conexion.php'
+//Necesitamos acceso al código contenido en 'Conexion.php'
 require_once 'Conexion.php';
 
 //Creamos la clase Usuario
@@ -12,7 +12,7 @@ class Usuario {
     private $email;
     private $pass;
     private $rol;
-    //Excepto la constante con el nombreUsuario de la tabla
+    //Excepto la constante con el nombre de la tabla
     const USUARIO = 'usuario';
 
     //Métodos get y set correspondientes
@@ -105,8 +105,8 @@ class Usuario {
         //Conectamos con la BBDD
         $conexion = new Conexion();
 		//Preparamos la inserción de los datos
-		$consulta = $conexion -> prepare('INSERT INTO '. self::USUARIO . '(nombreUsuario, apellidosUsuario, email, pass, rol) VALUES(:nombreUsuario, :apellidosUsuario, :email, :pass, :rol)');
-		//idUsuarioentificamos los marcadores
+		$consulta = $conexion -> prepare('INSERT INTO '. self::USUARIO . ' (nombreUsuario, apellidosUsuario, email, pass, rol) VALUES (:nombreUsuario, :apellidosUsuario, :email, :pass, :rol)');
+		//identificamos los marcadores
 		$consulta->bindParam(':nombreUsuario', $this->nombreUsuario);
 		$consulta->bindParam(':apellidosUsuario', $this->apellidosUsuario);
 		$consulta->bindParam(':email', $this->email);
