@@ -38,11 +38,11 @@ if(isset($_POST['registrar'])) {
 		//Si se repite el email pero no la contraseña
 		if ($repetido && !$usuario) {
 			//Lanzamos el mensaje para que revise el email
-			$mensajeRegistro = "<p class=''>El email ya existe en nuestra base de datos. Por favor, revísalo.</p>";
+			$mensajeRegistro = "<div class='alert alert-warning' role='alert'>El email ya existe en nuestra base de datos. Por favor, revísalo.</div>";
 		} elseif ($usuario) {
 			/*En cambio, si coincide email y contraseña añadiremos al mensaje anterior
 			si se ha equivocado de formulario y lo que quería era hacer login*/
-			$mensajeRegistro= "<p class=''>El email y la contraseña ya existen en nuestra base de datos. Por favor, revísalos. ¿Seguro que no querías 'Iniciar sesión' en vez de registrarte?</p>";
+			$mensajeRegistro= "<div class='alert alert-warning' role='alert'>El email y la contraseña ya existen en nuestra base de datos. Por favor, revísalos. ¿Seguro que no querías 'Iniciar sesión' en vez de registrarte?</div>";
 		} else {
 			//En el caso de que no coincida, quiere decir que es un usuario no registrado
 			//Iniciamos sesión y guardamos sus datos
@@ -55,8 +55,10 @@ if(isset($_POST['registrar'])) {
 			//Insertamos el nuevo usuario en la tabla de usuarios
 			$nuevoUsuario = new Usuario(null, $nombreUsuario, $apellidosUsuario, $emailUsuario, $passUsuario, 'creador');
 			$nuevoUsuario->guardarUsuarios();
+			//Y guardamos su id
+			$_SESSION['idUsuario'] = $nuevoUsuario->getIdUsuario();
 			//Y lo rediccionaremos a la página de los formularios
-			header("Location:crear.php");
+			header("Location:crear_mundos.php");
 		}
 	}
 	catch (Exception $e){
@@ -101,7 +103,7 @@ if(isset($_POST['iniciar'])) {
 		//Si se repite el email pero no la contraseña
 		if ($repetido && !$usuario) {
 			//Lanzamos el mensaje para que revise el email
-			$mensajeIniciar= "<p class=''>El email o contraseña no es correcto. Por favor, revíselos.</p>";
+			$mensajeIniciar= "<div class='alert alert-warning' role='alert'>El email o contraseña no es correcto. Por favor, revíselos.</div>";
 		} elseif ($usuario) {
 			//Si coincide email y contraseña, comprobamos que su rol sea creador
 			$rol = $usuario->getRol();
@@ -115,16 +117,16 @@ if(isset($_POST['iniciar'])) {
 				$_SESSION['pass'] = $passUsuario;
 				$_SESSION['rol'] = $usuario->getRol();
 				//Y lo rediccionaremos a la página de los formularios
-				header("Location:crear.php");
+				header("Location:crear_mundos.php");
 			} else{
 				//Si es visitante lanzamos el siguiente aviso
-				$mensajeIniciar= "<p class=''>El email o contraseña corresponde con un visitante no con un creador. Por favor, vaya a la página <a href='visitar.php' alt='visitar'>Visitar</a> para visitar su mundo.</p>";
+				$mensajeIniciar= "<div class='alert alert-warning' role='alert'>El email o contraseña corresponde con un visitante no con un creador. Por favor, vaya a la página <a href='visitar.php' alt='visitar'>Visitar</a> para visitar su mundo.</div>";
 			}
 			
 		} else {
 			/*En el caso de que no coincida, quiere decir que es un usuario no registrado 
 			por lo que lo derivamos al formulario correspondiente*/
-			$mensajeIniciar= "<p class=''>No existe ningún usuario con esos datos. Por favor, revísalos o  cubre el formulario de regitro.</p>";
+			$mensajeIniciar= "<div class='alert alert-warning' role='alert'>No existe ningún usuario con esos datos. Por favor, revísalos o  cubre el formulario de regitro.</div>";
 		}
 	}
 	catch (Exception $e) {
@@ -150,31 +152,40 @@ if(isset($_POST['iniciar'])) {
 <link rel="stylesheet" href="estilos/elmundode.css">
 	<!-- Iconos -->
 <link rel="stylesheet" href="estilos/style.css">
+	<!--Favicon-->
+<link rel="icon" type="image/png" href="img/elmundode/favicon.png" sizes="32x32">
 <title>El mundo de - Crea tu mundo</title>
 </head>
 
 <body>
 	<!--MENÚ-->
-	<nav class="navbar navbar-light bg-white container-fluid">
-  		<a class="navbar-brand" href="index.html">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top container-fluid shadow-sm">
+		<a class="navbar-brand" href="index.html">
 			<img class="img-fluid" src="img/elmundode/elmundode_240x40.png" alt="El mundo de"/>
 		</a>
-  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
-    		<span class="navbar-toggler-icon"></span>
-  		</button>
-		  <div class="collapse navbar-collapse justify-content-center mb-3" id="menu">
-			<ul class="navbar-nav text-center">
-			  <li class="nav-item active b_gris text-uppercase mt-2 py-2" >
-				<a class="nav-link text-white font-weight-bold" href="index.html">Bienvenid@ <span class="sr-only">(current)</span></a>
-			  </li>
-			  <li class="nav-item b_gris text-uppercase mt-2 py-2">
-				<a class="nav-link text-white font-weight-bolder" href="crear_index.php">Crear</a>
-			  </li>
-			  <li class="nav-item b_gris text-uppercase mt-2 py-2">
-				<a class="nav-link text-white font-weight-bolder" href="visitar.php">Visitar</a>
-			  </li>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.html">Bienvenid@</a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="visitar.php">Visitar</a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item active mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="crear_index.php">Crear<span class="sr-only">(current)</span></a>
+					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+				</li>
+				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="logout.php">Salir</a>
+				</li>
 			</ul>
-		  </div>
+		</div>
 	</nav>
 	<!--Fin menú-->
 	
@@ -185,30 +196,30 @@ if(isset($_POST['iniciar'])) {
 			<div class="col-sm-12 col-md-6 b_lila">
 				<div class="container">
 					 <form id="registrar" class="borde_lila sombra rounded m-5 p-3" action="crear_index.php" method='post'>
-						<div class="card_header b_lila p-3 mb-4 rounded text-white text-uppercase text-center"><h6>¡Registrate aquí!</h6></div>
+						<div class="b_lila p-3 mb-4 rounded text-white text-uppercase text-center"><h6>¡Registrate aquí!</h6></div>
 						 <!--Mostramos el mensaje correspondiente-->
 						<?php if(isset($mensajeRegistro)) echo $mensajeRegistro ?>
 						<div class="form-group">
 							<label for="nombre">Nombre:</label>
-							<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escribe tu nombre">
+							<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
 						</div>
 						<div class="form-group">
 							<label for="apellidos">Apellidos:</label>
-							<input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Escribe tus apellidos">
+							<input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Escribe tus apellidos" required>
 						</div>
 						<div class="form-group">
 							<label for="emailNuevo">Email:</label>
-							<input type="email" class="form-control" id="emailNuevo" name="emailNuevo" placeholder="Introduce tu email">
+							<input type="email" class="form-control" id="emailNuevo" name="emailNuevo" placeholder="Introduce tu email" required>
 						</div>
 						<div class="form-group">
 							<label for="passNuevo">Contraseña:</label>
-							<input type="password" class="form-control" id="passNuevo" name="passNuevo" placeholder="Introduce una contraseña">
+							<input type="password" class="form-control" id="passNuevo" name="passNuevo" placeholder="Introduce una contraseña" required>
 						</div>
 						 <div class="form-group">
-							<label for="passRepite">Repite la contraseña:</label>
-							<input type="password" class="form-control" id="passNuevoRepite" placeholder="">
+							<label for="passNuevoRepite">Repite la contraseña:</label>
+							<input type="password" class="form-control" id="passNuevoRepite" name="passNuevoRepite" placeholder="" required>
 						</div>
-						<button type="submit" class="btn b_lila blanco" name="registrar">Registrarse</button>
+						<button type="submit" class="btn b_lila blanco" name="registrar" id="btn_registrar">Registrarse</button>
 					</form>
 				</div>
 			</div>
@@ -263,9 +274,12 @@ if(isset($_POST['iniciar'])) {
 	<!--Fin del footer-->
 	
 <!-- Optional JavaScript --> 
+
 <!-- jQuery first, then Popper.js, then Bootstrap JS --> 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
 <script src="script/bootstrap.min.js"></script>
+<!--JavaScript propio con validación de email repetido-->
+	<script src="script/crear_index.js"></script>
 </body>
 </html>
