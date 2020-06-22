@@ -19,9 +19,9 @@ CREATE TABLE `elmundode`.`bebe` (
     `apellidosBebe` VARCHAR (50) NOT NULL,
     `fechaNacimiento` DATE NOT NULL,
     `horaNacimiento` TIME NOT NULL,
-    `lugarNacimiento` VARCHAR (50),
-    `ciudadNacimiento` VARCHAR (50),
-    `grupoSanguineo` ENUM('0 -', '0 +', 'A -', 'A +', 'B -', 'B +', 'AB -', 'AB +'),
+    `lugarNacimiento` VARCHAR (50) NOT NULL,
+    `ciudadNacimiento` VARCHAR (50) NOT NULL,
+    `grupoSanguineo` ENUM('0 -', '0 +', 'A -', 'A +', 'B -', 'B +', 'AB -', 'AB +') NOT NULL,
     `imgNacimiento` VARCHAR (50),
     `dedicatoriaBebe` VARCHAR (200) NOT NULL,
     `idUsuario`INT NOT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE `elmundode`.`progenitor` (
     `idProgenitor` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `nombreProgenitor` VARCHAR (50) NOT NULL,
     `apellidosProgenitor` VARCHAR (50) NOT NULL,
-    `tipoProgenitor` ENUM('madre','padre'),
+    `tipoProgenitor` ENUM('madre','padre') NOT NULL,
     `fechaNProgenitor`  DATE NOT NULL,
     `lugarNProgenitor` VARCHAR (50) NOT NULL,
-    `descripcionProgenitor`VARCHAR (50) NOT NULL,
+    `descripcionProgenitor`VARCHAR (200) NOT NULL,
     `imgProgenitor` VARCHAR (50),
     `idBebe` INT NOT NULL,
     CONSTRAINT ProgenitorUnico UNIQUE (nombreProgenitor, apellidosProgenitor, fechaNProgenitor, lugarNProgenitor, idBebe)
@@ -91,16 +91,25 @@ ADD PRIMARY KEY (`idBebe`, `nombreDiente`);
 CREATE TABLE `elmundode`.`anecdota` (
     `idBebe` INT NOT NULL,
     `fechaAnecdota` DATE NOT NULL,
-    `descripcionAnecdota` VARCHAR (50) NOT NULL,
-    `nombreAnecdota` VARCHAR (50),
-    `lugarAnecdota` VARCHAR (50),
+    `nombreAnecdota` VARCHAR (50) NOT NULL,
+    `lugarAnecdota` VARCHAR (50) NOT NULL,
+    `descripcionAnecdota` VARCHAR (200) NOT NULL,
     `extraAnecdota` VARCHAR (200),
     `tipoExtra` ENUM ('link', 'img'),
     CONSTRAINT fkanecdota FOREIGN KEY (`idBebe`) REFERENCES `elmundode`.`bebe`(`idBebe` ) 
 ) ENGINE = INNODB;
 
 ALTER TABLE `elmundode`.`anecdota`
-ADD PRIMARY KEY (`idBebe`, `descripcionAnecdota`);
+ADD PRIMARY KEY (`idBebe`, `nombreAnecdota`);
+
+-- Por último creamos la tabla 'visitas' que relacionan a los usuarios visitantes y a los bebés
+CREATE TABLE `elmundode`.`visitas` (
+`idVisitas`INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`idBebe`INT NOT NULL,
+`idUsuario` INT NOT NULL,
+CONSTRAINT fkvisitas1 FOREIGN KEY (`idBebe`) REFERENCES `elmundode`.`bebe`(`idBebe` ) ,
+CONSTRAINT fkvisitas2 FOREIGN KEY (`idUsuario`) REFERENCES `elmundode`.`usuario`(`idUsuario` ) 
+) ENGINE = INNODB;
 
 
 -- Creamos el usuario daw, que será el administrador, con la contraseña abc123.
@@ -128,6 +137,7 @@ FOR EACH ROW BEGIN
     DELETE FROM crecimiento WHERE crecimiento.idBebe = bebe.idBebe;
     DELETE FROM dentadura WHERE dentadura.idBebe = bebe.idBebe;
     DELETE FROM anecdota WHERE anecdota.idBebe = bebe.idBebe;
+    DELETE FROM visitas WHERE visitas.idBebe = bebe.idBebe;
 END
 
 -- Para que cuando se borre un progenitor se borren los embarazos asociados
