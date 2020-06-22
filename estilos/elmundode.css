@@ -36,6 +36,21 @@
 	color: #008556 !important;
 }
 
+.b_verdeClaro {
+	background-color: #70d44b !important;
+}
+
+.borde_verdeClaro {
+	border-color: #70d44b !important;
+	border-width: 2px !important;
+	background-color: white;
+
+}
+
+.verdeClaro {
+	color: #70d44b !important;
+}
+
 .b_amarillo {
 	background-color: #ffc260;
 }
@@ -126,50 +141,32 @@ body {
 	font-size: 14px;
 }
 
-/*Logo*/
-
-
-/* SECTION 1*/
-/* Truco para colocar la imagen principal, primero como fondo y después como bloque*/
-.trucoImagen {
-	display: none;
+/*Menu*/
+nav a:hover{
+	text-decoration: none !important;
+	color: #70d44b !important;
 }
 
-.fondoImagen {
-	background-image: url(../img/elmundode/Recurso1.svg);
-	background-repeat: no-repeat;
-	background-size: contain;
-	min-height: 40vh;
-	background-position: bottom;
+/*Migas de pan*/
+.breadcrumb{
+	background-color: transparent;
 }
 
-@media screen and (max-width:767px) {
-	.trucoImagen {
-		display: block;
-	}
-	
-	.fondoImagen{
-		background-image: url();
-	}
+.breadcrumb a {
+	color: white;
 }
 
-@media screen and (min-width:768px) {
-	.fondoImagen{
-		min-height: 30vh;
-	}
+.breadcrumb .active {
+	text-transform: uppercase; 
 }
 
-@media screen and (min-width:992px) {
-	.fondoImagen{
-		min-height: 40vh;
-	}
-}
+
 
 /* SECTION 2*/
 /*Ancho de las tarjetas*/
-.card {
-	width: 70%;
-	margin: auto;
+.cardIndex {
+	width: 70% !important;
+	margin: auto !important;
 }
 
 
@@ -216,16 +213,59 @@ img[src*="saludos"] {
 	min-height: 60vh;
 }
 
-/*Pestañas*/
-#myTab a {
-	color:white;
-	border: 1px solid white;
+/*Sweet alert*/
+.swal-text {
+	text-align: center !important;
+	margin: 0 20px !important;
 }
 
-#myTab a.active{
-	color: #343a40;
+.swal-footer{
+	text-align: center;
 }
 
-#myTabContent .active {
-	background-color: white;
+.swal-button {
+	background-color:#70d44b;
+}
+
+.swal-button:hover {
+	background-color:#008556 !important;
+}
+
+.firma {
+	text-align: center;
+	font-family: 'Shadows Into Light', cursive;
+	font-size: 24px;
+	color: #008556;
+	margin-bottom: 0;
+}
+
+
+.mostrarEmbarazo::before {
+	content: url('../img/elmundode/calendario.svg') !important;
+	display:inline-block;
+	position: absolute;
+    width: 75px;
+    height:75px;
+	left: -75px;
+	top: -10px;
+}
+
+.mostrarAumentoPeso::before{
+	content: url('../img/elmundode/peso.svg') !important;
+	display:inline-block;
+	position: absolute;
+    width: 75px;
+    height:75px;
+	left: -75px;
+	top: -15px;
+}
+
+.mostrarFechaNoticia::before{
+	content: url('../img/elmundode/noticias.svg') !important;
+	display:inline-block;
+	position: absolute;
+    width: 75px;
+    height:75px;
+	left: -75px;
+	top: -10px;
 }
