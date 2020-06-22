@@ -11,6 +11,13 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
 	if($_SESSION['rol'] == 'creador') {
 		header("Location:crear_mundos.php");
+	} else{
+		//si es visitante mostramos el logout en el menú
+		//Si existe un usuario en la sesión mostramos en el menú la opción de log out
+		$menuLogOut = '<li class="nav-item mt-3 my-lg-1 mx-lg-3">
+							<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="logout.php">Salir</a>
+						</li>';
+		$separacionMenu = "<hr class='b_verde w-75 m-auto d-block d-lg-none'>";
 	}
 }
 
@@ -45,8 +52,9 @@ if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
 				</li>
 				<li class="nav-item active mt-3 my-lg-1 mx-lg-3">
 					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="crear.php">Crear<span class="sr-only">(current)</span></a>
-					<hr class="b_verde w-75 m-auto d-block d-lg-none">
+					<?php if(isset($separacionMenu)) echo $separacionMenu; ?>
 				</li>
+				<?php if(isset($menuLogOut)) echo $menuLogOut; ?>
 			</ul>
 		</div>
 	</nav>
