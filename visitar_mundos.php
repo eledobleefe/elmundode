@@ -19,8 +19,10 @@ if ($_SESSION['rol'] == 'creador') {
 	}
 	$idBebe = $_SESSION['idBebe'];
 } else {
+	$idUsuario = $_SESSION['idUsuario'];
 	$idBebe = mostrarBebeVisitante($idUsuario);
 }
+
 
 //Si existe un usuario en la sesión mostramos en el menú la opción de log out y obtenemos información
 if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
@@ -156,7 +158,7 @@ if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
 						<p class='ml-3'>
 							<?php 
 							if(isset($infoEmbarazo)) {
-								$infoEmbarazo['kgAumento'];
+								echo $infoEmbarazo['kgAumento'];
 							} else {
 								echo "Nadie sabe si hubo más ";
 							}
@@ -170,7 +172,7 @@ if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
 							if(isset($infoEmbarazo)) {
 								$fecha = new DateTIME($infoEmbarazo['fechaNoticia']);
 								$formatoFecha = $fecha->format('m - d - y');
-								$formatoFecha;
+								echo $formatoFecha;
 							} else {
 								echo "No nos acordamos";
 							}
