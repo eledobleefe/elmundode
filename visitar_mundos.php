@@ -33,8 +33,6 @@ if(!empty($_SESSION['idUsuario']) && !empty($_SESSION['rol'])) {
 	$infoProgenitor = mostrarInformacionProgenitor($idBebe);
 }
 
-echo $idBebe;
-
 
 
 ?>
