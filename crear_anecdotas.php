@@ -1,20 +1,26 @@
 <?php
 
 require_once 'back/config.php';
+require_once 'back/anecdotas_listar.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
 $nombreBebe = $_SESSION['nombreBebe'];
 $idBebe = $_SESSION['idBebe'];
 
-
+$listaAnecdotas = listarAnecdotas();
+if(isset($listaAnecdotas['lista'])) {
+	$mostrarAnecdotas = $listaAnecdotas['lista'];
+} else if(isset($listaAnecdotas['lista'])) {
+	$errorAnecdotas = "<div id='msgErrorAnecdotas' class='alert alert-warning mt-3 py-3 m-3' role='alert'></div>";
+}
 
 
 
@@ -37,7 +43,7 @@ $idBebe = $_SESSION['idBebe'];
 		<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
-					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.html">Bienvenid@</a>
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.php">Bienvenid@</a>
 					<hr class="b_verde w-75 m-auto d-block d-lg-none">
 				</li>
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
@@ -62,7 +68,7 @@ $idBebe = $_SESSION['idBebe'];
 		<div class="container">	
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="crear_bebes.php">Bebé</a></li>
+					<li class="breadcrumb-item"><a href="crear_bebes.php"><?php echo $nombreBebe; ?></a></li>
 					<li class="breadcrumb-item"><a href="crear_progenitores.php">Progenitores</a></li>
 					<li class="breadcrumb-item active"><a href="crear_embarazo.php">Embarazo</a></li>
 					<li class="breadcrumb-item"><a href="crear_crecimiento.php">Crecimiento</a></li>
@@ -75,95 +81,67 @@ $idBebe = $_SESSION['idBebe'];
 	<!-- Fin migas de pan----------------------------------------------------------------------------------------------------------->
 		<div class="container bg-white py-3 sombra">
 			<div class="container-fluid my-3 justify-content-end">
-				<form id="formBebe" method="post" action="crear_anecdotas.php" >
+				<form id="formAnecdota" method="post" action="" >
 					<h6 class="amarillo border borde_amarillo rounded text-center text-uppercase py-3">Datos de la anécdota</h6>
-					<!--Mostramos el mensaje correspondiente-->
-					<?php if(isset($mensajeBebe)) echo $mensajeBebe ?>
-					<div class="alert alert-danger py-3 my-3">Página sin terminar</div>
-					<div class="row pt-3">
+					<div class="row pt-3 my-2">
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="fechaDatos">Fecha de los datos</label>
-								<input type="date" class="form-control" id="fechaDatos">
+								<label for="fechaAnecdota">Fecha de los datos</label>
+								<input type="date" class="form-control" id="fechaAnecdota" name="fechaAnecdota">
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="altura">Nombre de la anécdota</label>
-								<input type="text" class="form-control" id="descripcionAnecdota" placeholder="Ej. Primera palabra, primer gateo, primeros pasos, primer amigo...">
+								<label for="nombreAnecdota">Nombre de la anécdota</label>
+								<input type="text" class="form-control" id="nombreAnecdota" name="nombreAnecdota" placeholder="Ej. Primera palabra, primer gateo, primeros pasos, primer amigo...">
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="peso">Lugar de la anécdota</label>
-								<input type="text" class="form-control" id="lugarAnecdota" placeholder="Ej. nuestra casa (primera palabra), Paseo Marítimo de A Coruña (primeros pasos),...">
+								<label for="lugarAnecdota">Lugar de la anécdota</label>
+								<input type="text" class="form-control" id="lugarAnecdota" name="lugarAnecdota" placeholder="Ej. nuestra casa (primera palabra), Paseo Marítimo de A Coruña (primeros pasos),...">
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row my-2">
 						<div class="col-12">
 							<div class="form-group">
-								<label for="fechaDatos">Descripción de la anécdota</label>
-								<textarea rows="3" class="form-control" id="descripcionProgenitor" name="descripcionProgenitor" aria-describedby="helpDescripcion" required>
+								<label for="descripcionAnecdota">Descripción de la anécdota</label>
+								<textarea rows="3" class="form-control" id="descripcionAnecdota" name="descripcionAnecdota" aria-describedby="helpDescripcion" required>
 								</textarea>
 								<small id="helpDescripcion" class="form-text text-muted">Escribe en pocas palabras algún detalle más de la anécdota.</small>
 							</div>
 						</div>
 					</div>
+					<div class="row align-items-center my-2">
+						<div class="col-12 col-md-6">
+							<div class="form-group">
+								<label for="imgAnecdota">¿Alguna imagen que añadir?</label>
+								<input type="file" class="form-control-file my-3" id="imgAnecdota" name="imgAnecdota">
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="linkAnecdota">¿Algún link que adjuntar?</label>
+							<div class="input-group input-group-sm">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon3">url:</span>
+								</div>
+								<input type="text" class="form-control" id="linkAnecdota" name="linkAnecdota" aria-describedby="basic-addon3">
+							</div>
+						</div>
+					</div>
 					<button type="submit" class="btn b_amarillo text-white my-3"><i class="far fa-save mr-2"></i>Guardar</button>
-					<!--<a class="btn b_amarillo text-white mx-sm-1 my-3" href="crear_visitantes.php"><i class="far fa-check-square mr-2"></i>Listo</a>-->
 				</form>
+				<?php if(isset($mostrarAnecdotas)) echo $mostrarAnecdotas; ?>
 			</div>
-			
-			<hr class="b_amarillo my-5">
-			
-			<div class="container-fluid my-3">
-				<h6 class="b_amarillo text-white rounded text-center text-uppercase p-3 my-4">Tabla de anécdotas</h6>
-				<small class="form-text text-muted mb-3">Te dejamos unas anécdotas como plantilla, por si las quieres rellenar. Para hacerlo sólo has de editarlas. Si quieres prescindir de ellas, tan sólo bórralas.</small>
-				<div class="row my-1 justify-content-center align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">12-02-2020</li>
-							<li class="list-group-item text-center w-100">Primeros pasos</li>
-							<li class="list-group-item text-center w-100">Caión</li>
-							<li class="list-group-item text-center w-100">Era un día de verano...</li>
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
-				<div class="row my-1 justify-content-around align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">12-02-2020</li>
-							<li class="list-group-item text-center w-100">Primeros pasos</li>
-							<li class="list-group-item text-center w-100">Caión</li>
-							<li class="list-group-item text-center w-100">Era un día de verano...</li>						
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
-			</div>
-		</div>
 	</section>
 	
 	<!--FOOTER-->	
 	<!--FOOTER-->	
 	<?php include 'back/incluir/footer.php'; ?>	
     <?php include 'back/incluir/pie.php'; ?>   
+	<?php require_once 'modalEditarAnecdota.php'; ?>	
+
 </body>
 </html>
 
