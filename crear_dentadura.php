@@ -2,13 +2,14 @@
 
 require_once 'back/config.php';
 require_once 'back/desplegarSelect.php';
+require_once 'back/dentadura_listar.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
@@ -21,7 +22,12 @@ $selectOrdenDiente = desplegarSelect($listaOrdenDiente);
 $listaNombreDiente = listarNombreDiente();
 $selectNombreDiente = desplegarSelect($listaNombreDiente);
 
-
+$listaDentadura = listarDentadura();
+if(isset($listaDentadura['lista'])) {
+	$mostrarDentadura = $listaDentadura['lista'];
+} else if(isset($listaDentadura['lista'])) {
+	$errorDentadura = "<div id='msgErrorDentadura' class='alert alert-warning mt-3 py-3 m-3' role='alert'></div>";
+}
 
 
 ?>
@@ -43,7 +49,7 @@ $selectNombreDiente = desplegarSelect($listaNombreDiente);
 		<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
-					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.html">Bienvenid@</a>
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.php">Bienvenid@</a>
 					<hr class="b_verde w-75 m-auto d-block d-lg-none">
 				</li>
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
@@ -67,7 +73,7 @@ $selectNombreDiente = desplegarSelect($listaNombreDiente);
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="crear_bebes.php">Bebé</a></li>
+					<li class="breadcrumb-item"><a href="crear_bebes.php"><?php echo $nombreBebe; ?></a></li>
 					<li class="breadcrumb-item"><a href="crear_progenitores.php">Progenitores</a></li>
 					<li class="breadcrumb-item"><a href="crear_embarazo.php">Embarazo</a></li>
 					<li class="breadcrumb-item"><a href="crear_crecimiento.php">Crecimiento</a></li>
@@ -80,22 +86,21 @@ $selectNombreDiente = desplegarSelect($listaNombreDiente);
 	<!-- Fin migas de pan----------------------------------------------------------------------------------------------------------->
 		<div class="container bg-white py-3 sombra">
 			<div class="container-fluid my-3">
-				<form id="formBebe" method="post" action="crear_dentaduras.php" >
+				<form id="formDentadura" method="post" action="" >
 					<h6 class="amarillo border borde_amarillo rounded text-center text-uppercase py-3">Datos de la dentadura</h6>
 					<!--Mostramos el mensaje correspondiente-->
-                    <?php if(isset($mensajeBebe)) echo $mensajeBebe ?>
-                    <div class="alert alert-danger py-3 my-3">Página sin terminar</div>
+                    <?php if(isset($errorDentadura)) echo $errorDentadura ?>
 					<div class="row mt-5">
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="fechaDatos">Fecha de los datos</label>
-								<input type="date" class="form-control" id="fechaDatos">
+								<label for="fechaDiente">Fecha de los datos</label>
+								<input type="date" class="form-control" id="fechaDiente" name="fechaDiente" required>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="altura">Orden</label>
-								<select name="ordenDiente" class="form-control" id="ordenDiente">
+								<label for="ordenDiente">Orden</label>
+								<select name="ordenDiente" class="form-control" id="ordenDiente" required>
 											<!--Mostramos las diferentes opciones que hay en la tabla de la BBDD-->
 											<?php if(isset($selectOrdenDiente)) echo $selectOrdenDiente ?>
 										</select>
@@ -103,63 +108,25 @@ $selectNombreDiente = desplegarSelect($listaNombreDiente);
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="peso">Nombre del diente</label>
-								<select name="nombreDiente" class="form-control" id="nombreDiente">
+								<label for="nombreDiente">Nombre del diente</label>
+								<select name="nombreDiente" class="form-control" id="nombreDiente" required>
 											<!--Mostramos las diferentes opciones que hay en la tabla de la BBDD-->
 											<?php if(isset($selectNombreDiente)) echo $selectNombreDiente ?>
 										</select>
 							</div>
 						</div>
 					</div>
-					<button type="guardar" class="btn b_amarillo text-white my-3"><i class="far fa-save mr-2"></i>Guardar</button>
+					<button type="submit" class="btn b_amarillo text-white my-3"><i class="far fa-save mr-2"></i>Guardar</button>
 				</form>
-			</div>
-			
-			<hr class="b_amarillo my-5">
-			
-			<div class="container-fluid my-3">
-				<h6 class="b_amarillo text-white rounded text-center text-uppercase p-3 my-4">Tabla de dentadura</h6>
-				<div class="row my-1 justify-content-center align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">12-02-2020</li>
-							<li class="list-group-item text-center w-100">1</li>
-							<li class="list-group-item text-center w-100">Incisivo central derecho inferior</li>
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
-				<div class="row my-1 justify-content-around align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">18-02-2020</li>
-							<li class="list-group-item text-center w-100">2</li>
-							<li class="list-group-item text-center w-100">Incisivo lateral izquierdo inferior</li>
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
+				<?php if(isset($mostrarDentadura)) echo $mostrarDentadura; ?>
 			</div>
 		</div>
 	</section>
 	
 	<!--FOOTER-->	
 	<?php include 'back/incluir/footer.php'; ?>	
-    <?php include 'back/incluir/pie.php'; ?>   
+    <?php include 'back/incluir/pie.php'; ?>
+	<?php require_once 'modalEditarDentadura.php'; ?>	   
 </body>
 </html>
 
