@@ -1,7 +1,7 @@
 <?php
 //Necesitamos los siguientes archivos
 require_once 'back/config.php';
-require_once 'back/obtenerBebesUsuario.php';
+require_once 'back/usuario_obtenerBebes.php';
 
 //Recuperamos la sesion
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
@@ -9,7 +9,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
@@ -63,9 +63,9 @@ $misMundos = obtenerBebesUsuario($idUsuario, $nombreUsuario);
 	<!--Fin menú-->
 	
 	<!--SECTION-->
-	<div class="container-fluid b_verde">
+	<section class="container-fluid b_verde">
 		<?php if(isset($misMundos)) echo $misMundos; ?>
-	</div>
+	</section>
 	<!--Fin section-->
 <?php include 'back/incluir/footer.php'; ?>	
 
