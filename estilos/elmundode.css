@@ -141,6 +141,10 @@ body {
 	font-size: 14px;
 }
 
+section {
+	min-height: 80vh;
+}
+
 /*Menu*/
 nav a:hover{
 	text-decoration: none !important;
