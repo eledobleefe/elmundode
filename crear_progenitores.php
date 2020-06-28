@@ -2,7 +2,7 @@
 
 require_once 'back/config.php';
 require_once 'back/desplegarSelect.php';
-require_once 'back/listarProgenitores.php';
+require_once 'back/progenitor_listar.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -139,11 +139,9 @@ if (isset($listaProgenitores['ocultar'])){
 						<input type="file" class="custom-file-input" id="imgProgenitor" name="imgProgenitor" lang="es">
 						<label class="custom-file-label ml-4" for="imgProgenitor">Seleccionar Archivo</label>
 					</div>
-				<button type="submit" name="btnGuardarProgenitor" class="btn b_amarillo text-white ml-4 mb-4">Guardar</button>
+				<button type="submit" name="btnGuardarProgenitor" class="btn b_amarillo text-white ml-4 mb-4"><i class="far fa-save mr-2"></i>Guardar</button>
 			</form>
 			<?php if(isset($mostrarProgenitores)) echo $mostrarProgenitores; ?>
-			</div>
-
 		</div>
 	</section>
 	
