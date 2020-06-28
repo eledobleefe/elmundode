@@ -1,19 +1,21 @@
 <?php
 
 require_once 'back/config.php';
+require_once 'back/embarazo_mostrarDatos.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
 $nombreBebe = $_SESSION['nombreBebe'];
 $idBebe = $_SESSION['idBebe'];
 
+$mostrarEmbarazo = mostrarDatosEmbarazo($idBebe);
 
 
 
@@ -62,7 +64,7 @@ $idBebe = $_SESSION['idBebe'];
 		<div class="container">	
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="crear_bebes.php">Bebé</a></li>
+					<li class="breadcrumb-item"><a href="crear_bebes.php"><?php echo $nombreBebe; ?></a></li>
 					<li class="breadcrumb-item"><a href="crear_progenitores.php">Progenitores</a></li>
 					<li class="breadcrumb-item active" aria-current="page">Embarazo</li>
 					<li class="breadcrumb-item"><a href="crear_crecimiento.php">Crecimiento</a></li>
@@ -74,22 +76,20 @@ $idBebe = $_SESSION['idBebe'];
 		</div>
 	<!-- Fin migas de pan----------------------------------------------------------------------------------------------------------->
 		<div class="container bg-white pt-3 sombra">
-			<form id="formBebe" method="post" action="crear_bebes.php" >
+			<form id="formEmbarazo" method="post" action="" >
 				<h6 class="amarillo border borde_amarillo rounded text-center text-uppercase py-3 m-3">Datos del embarazo</h6>
-				<!--Mostramos el mensaje correspondiente-->
-				<?php if(isset($mensajeBebe)) echo $mensajeBebe ?>
-				<div class="alert alert-danger py-3 m-3">Página sin terminar</div>
+				<input type="number" class="d-none" name='idProgenitor' <?php if(isset($mostrarEmbarazo['idProgenitor'])) echo "value='" . $mostrarEmbarazo['idProgenitor'] . "'"; ?>>
 				<div class="row py-3 px-4 mb-4">
 					<div class="col-sm-12 col-md-6">
 						<div class="form-group">
 							<label for="semanasEmbarazo">Semanas de embarazo</label>
-							<input type="number" class="form-control" id="semanasEmbarazo">
+							<input type="number" class="form-control" id="semanasEmbarazo" name="semanasEmbarazo" <?php if(isset($mostrarEmbarazo['semanasEmbarazo'])) echo "value='" . $mostrarEmbarazo['semanasEmbarazo'] . "'"; ?>>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-6">
 						<div class="form-group">
 							<label for="diasEmbarazo">+ Días de embarazo</label>
-							<input type="number" class="form-control" id="diasEmbarazo" aria-describedby="helpEmbarazo">
+							<input type="number" class="form-control" id="diasEmbarazo" name="diasEmbarazo" aria-describedby="helpEmbarazo" <?php if(isset($mostrarEmbarazo['diasEmbarazo'])) echo "value='" . $mostrarEmbarazo['diasEmbarazo'] . "'"; ?>>
 							<small id="helpEmbarazo" class="form-text text-muted">No siempre nacen con 'x' semanas justas ;)</small>
 						</div>
 					</div>
@@ -99,18 +99,22 @@ $idBebe = $_SESSION['idBebe'];
 					<div class="col-sm-12 col-md-6">
 						<div class="form-group">
 							<label for="kgAumento">Kg que la madre engordó en el embarazo</label>
-							<input type="text" class="form-control" id="kgAumento">
+							<input type="text" class="form-control" id="kgAumento" name="kgAumento" <?php if(isset($mostrarEmbarazo['kgAumento'])) echo "value='" . $mostrarEmbarazo['kgAumento'] . "'"; ?>>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-6">
 						<div class="form-group">
 							<label for="fechaNoticia">Fecha de la noticia</label>
-							<input type="date" class="form-control" id="fechaNoticia" aria-describedby="helpNoticia">
+							<input type="date" class="form-control" id="fechaNoticia" name="fechaNoticia" aria-describedby="helpNoticia" <?php if(isset($mostrarEmbarazo['fechaNoticia'])) echo "value='" . $mostrarEmbarazo['fechaNoticia'] . "'"; ?>>
 							<small id="helpNoticia" class="form-text text-muted">Ese día en que os enterásteis de que crecía la familia.</small>
 						</div>
 					</div>
 				</div>
-				<button type="guardar" class="btn b_amarillo text-white mx-4 mb-4">Guardar</button>
+				<button type="submit" id="guardar" class="btn b_amarillo text-white mx-4 mb-4" <?php if(count($mostrarEmbarazo) > 0) echo "hidden"; ?>><i class="far fa-save mr-2"></i>Guardar</button>
+				<div class='botonesOcultos' <?php if(count($mostrarEmbarazo) == 0) echo "hidden"; ?>>
+					<span class='btn b_amarillo text-white mx-4 mb-4' onclick='editarEmbarazo()'>Editar</span>
+					<span class='btn b_amarillo text-white mx-4 mb-4' onclick='<?php if(isset($mostrarEmbarazo['idProgenitor'])) echo "eliminarEmbarazo(" . $mostrarEmbarazo['idProgenitor'] . ")";  ?>' >Borrar</span>
+				</div>
 			</form>
 		</div>
 	</section>
