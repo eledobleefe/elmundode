@@ -1,20 +1,26 @@
 <?php
 
 require_once 'back/config.php';
+require_once 'back/visitas_listar.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
 $nombreBebe = $_SESSION['nombreBebe'];
 $idBebe = $_SESSION['idBebe'];
 
-
+$listaVisitantes = listarVisitantes();
+if(isset($listaVisitantes['lista'])) {
+	$mostrarVisitantes = $listaVisitantes['lista'];
+} else if(isset($listaVisitantes['lista'])) {
+	$errorVisitante = "<div id='msgErrorVisitante' class='alert alert-warning mt-3 py-3 m-3' role='alert'></div>";
+}
 
 ?>
 
@@ -35,7 +41,7 @@ $idBebe = $_SESSION['idBebe'];
 		<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
-					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.html">Bienvenid@</a>
+					<a class="nav-link verde text-uppercase mb-3  mb-lg-0" href="index.php">Bienvenid@</a>
 					<hr class="b_verde w-75 m-auto d-block d-lg-none">
 				</li>
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
@@ -60,108 +66,65 @@ $idBebe = $_SESSION['idBebe'];
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="crear_bebes.php">Bebé</a></li>
+					<li class="breadcrumb-item"><a href="crear_bebes.php"><?php echo $nombreBebe; ?></a></li>
 					<li class="breadcrumb-item"><a href="crear_progenitores.php">Progenitores</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Embarazo</li>
+					<li class="breadcrumb-item"><a href="crear_embarazo.php">Embarazo</a></li>
 					<li class="breadcrumb-item"><a href="crear_crecimiento.php">Crecimiento</a></li>
 					<li class="breadcrumb-item"><a href="crear_dentadura.php">Dentadura</a></li>
 					<li class="breadcrumb-item"><a href="crear_anecdotas.php">Anécdotas</a></li>
-					<li class="breadcrumb-item"><a href="crear_visitantes.php">Visitantes</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Visitantes</li>
 				</ol>
 			</nav>
 		</div>
 	<!-- Fin migas de pan----------------------------------------------------------------------------------------------------------->
 		<div class="container bg-white py-3 sombra">
 			<div class="container-fluid my-3">
-				<form id="formBebe" method="post" action="crear_anecdotas.php" >
+				<form id="formVisitas" method="post" action="" >
 					<h6 class="amarillo border borde_amarillo rounded text-center text-uppercase py-3">Datos del usuario</h6>
-					<!--Mostramos el mensaje correspondiente-->
-                    <?php if(isset($mensajeBebe)) echo $mensajeBebe ?>
-                    <div class="alert alert-danger py-3 my-3">Página sin terminar</div>
 					<div class="row pt-3 justify-content-between">
 						<div class="col-sm-12 col-md-6">
 							<div class="form-group">
-								<label for="fechaDatos">Nombre</label>
-								<input type="text" class="form-control" id="fechaDatos">
+								<label for="nombreUsuario">Nombre</label>
+								<input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-6">
 							<div class="form-group">
-								<label for="altura">Apellidos</label>
-								<input type="text" class="form-control" id="descripcionAnecdota" >
+								<label for="apellidosUsuario">Apellidos</label>
+								<input type="text" class="form-control" id="apellidosUsuario" name="apellidosUsuario" required>
 							</div>
 						</div>
 					</div>
 					<div class="row justify-content-between">
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="altura">Email</label>
-								<input type="email" class="form-control" id="descripcionAnecdota">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" id="email" name="email" required>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="peso">Contraseña</label>
-								<input type="pass" class="form-control" id="lugarAnecdota" >
+								<label for="pass">Contraseña</label>
+								<input type="password" class="form-control" id="pass" name="pass" required>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-4">
 							<div class="form-group">
-								<label for="peso">Repite la constraseña</label>
-								<input type="pass" class="form-control" id="lugarAnecdota" >
+								<label for="passNuevoRepite">Repite la constraseña</label>
+								<input type="password" class="form-control" id="passNuevoRepite" required>
 							</div>
 						</div>
 					</div>
-					<button type="guardar" class="btn b_amarillo text-white my-3"><i class="far fa-save mr-2"></i>Guardar</button>
-					<a href="visitar_mundo.php" class="btn b_amarillo text-white mx-sm-1 my-3"><i class="far fa-check-square mr-2"></i>Listo</a>
+					<button type="submit" class="btn b_amarillo text-white my-3"><i class="far fa-save mr-2"></i>Guardar</button>
 				</form>
-			</div>
-			
-			<hr class="b_amarillo my-5">
-			
-			<div class="container-fluid my-3">
-				<h6 class="b_amarillo text-white rounded text-center text-uppercase p-3 my-4">Tabla de usuarios</h6>
-				<div class="row my-1 justify-content-center align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">Bimba</li>
-							<li class="list-group-item text-center w-100">Galgo Galgo</li>
-							<li class="list-group-item text-center w-100">email@email.com</li>
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
-				<div class="row my-1 justify-content-around align-items-center">
-					<div class="col-sm-12 col-md-10">
-						<ul class="list-group list-group-horizontal-sm">
-							<li class="list-group-item text-center w-100">Bimba</li>
-							<li class="list-group-item text-center w-100">Galgo Galgo</li>
-							<li class="list-group-item text-center w-100">email@email.com</li>
-						</ul>
-					</div>
-					<div class="col-sm-12 col-md-2 my-3">
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-edit"></i>
-							</span>
-							<span class="btn b_amarillo btn-sm text-white" onclick="" data-toggle="modal" data-target="">
-								<i class="fas fa-trash-alt text-white"></i>
-							</span>						
-					</div>
-				</div>
-			</div>
+				<?php if(isset($mostrarVisitantes)) echo $mostrarVisitantes; ?>
 		</div>
 	</section>
 	
 	<!--FOOTER-->	
 	<?php include 'back/incluir/footer.php'; ?>	
     <?php include 'back/incluir/pie.php'; ?>   
+	<?php require_once 'modalEditarVisitantes.php'; ?>	
 </body>
 </html>
 
