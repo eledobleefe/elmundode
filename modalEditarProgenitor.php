@@ -61,6 +61,7 @@
 						<label class="custom-file-label ml-4" for="imgProgenitor">Seleccionar Archivo</label>
 					</div>
 				<button type="submit" name="btnEditarProgenitor" class="btn b_amarillo text-white ml-4 mb-4">Editar</button>
+			</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
