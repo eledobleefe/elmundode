@@ -23,7 +23,7 @@ CREATE TABLE `elmundode`.`bebe` (
     `ciudadNacimiento` VARCHAR (50) NOT NULL,
     `grupoSanguineo` ENUM('0 -', '0 +', 'A -', 'A +', 'B -', 'B +', 'AB -', 'AB +') NOT NULL,
     `imgNacimiento` VARCHAR (50),
-    `dedicatoriaBebe` VARCHAR (200) NOT NULL,
+    `dedicatoriaBebe` VARCHAR (1000) NOT NULL,
     `idUsuario`INT NOT NULL,
     CONSTRAINT BebeUnico UNIQUE (nombreBebe, apellidosBebe, fechaNacimiento, horaNacimiento, lugarNacimiento)
 ) ENGINE = INNODB;
@@ -64,6 +64,7 @@ ADD PRIMARY KEY (`idBebe`, `idProgenitor`);
 
 
 CREATE TABLE `elmundode`.`crecimiento` (
+    `idCrecimiento` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `idBebe` INT NOT NULL,
     `fechaDatos` DATE NOT NULL,
     `altura` FLOAT NOT NULL,
@@ -73,10 +74,11 @@ CREATE TABLE `elmundode`.`crecimiento` (
 ) ENGINE = INNODB;
 
 ALTER TABLE `elmundode`.`crecimiento`
-ADD PRIMARY KEY (`idBebe`, `fechaDatos`);
+ADD UNIQUE KEY (`idBebe`, `fechaDatos`);
 
 
 CREATE TABLE `elmundode`.`dentadura` (
+    `idDentadura` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `idBebe` INT NOT NULL,
     `fechaDiente` DATE NOT NULL,
     `ordenDiente` ENUM ('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'),
@@ -85,22 +87,24 @@ CREATE TABLE `elmundode`.`dentadura` (
 ) ENGINE = INNODB;
 
 ALTER TABLE `elmundode`.`dentadura`
-ADD PRIMARY KEY (`idBebe`, `nombreDiente`);
-
+ADD UNIQUE KEY (`idBebe`, `nombreDiente`);
+ALTER TABLE `dentadura` 
+ADD UNIQUE KEY( `idBebe`, `ordenDiente`); 
 
 CREATE TABLE `elmundode`.`anecdota` (
+    `idAnecdota` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `idBebe` INT NOT NULL,
     `fechaAnecdota` DATE NOT NULL,
     `nombreAnecdota` VARCHAR (50) NOT NULL,
     `lugarAnecdota` VARCHAR (50) NOT NULL,
     `descripcionAnecdota` VARCHAR (200) NOT NULL,
     `extraAnecdota` VARCHAR (200),
-    `tipoExtra` ENUM ('link', 'img'),
+    `tipoExtra` ENUM ('link', 'img', 'ninguno') NOT NULL,
     CONSTRAINT fkanecdota FOREIGN KEY (`idBebe`) REFERENCES `elmundode`.`bebe`(`idBebe` ) 
 ) ENGINE = INNODB;
 
 ALTER TABLE `elmundode`.`anecdota`
-ADD PRIMARY KEY (`idBebe`, `nombreAnecdota`);
+ADD UNIQUE KEY (`idBebe`, `nombreAnecdota`);
 
 -- Por último creamos la tabla 'visitas' que relacionan a los usuarios visitantes y a los bebés
 CREATE TABLE `elmundode`.`visitas` (
