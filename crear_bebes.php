@@ -1,7 +1,7 @@
 <?php
 
 require_once 'back/config.php';
-require_once 'back/crearFormularioBebe.php';
+require_once 'back/bebe_crearFormulario.php';
 
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -10,7 +10,7 @@ $formularioBebe = crearFormularioBebe();
 /*Si la sesión está vacía quiere decir que no se ha pasado por crear_index.php.
 Esta es una forma de evitar que alguien acceda a esta página pegando la url directamente en el navegador*/
 if(empty($_SESSION)) {
-	//Lo devolvemos a la página de index.html
+	//Lo devolvemos a la página de index.php
 	header("Location:index.php");
 }
 
