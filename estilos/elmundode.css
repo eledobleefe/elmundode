@@ -273,38 +273,3 @@ img[src*="saludos"] {
 	left: -75px;
 	top: -10px;
 }
-
-.mostrarFechaNacimiento {
-	max-width: 430px;
-}
-
-
-.mostrarFechaNacimiento li{
-    padding: 30px;
-	/*margin:3px 0;*/
-	width: 120px;
-	display: inline-block;
-	background-image: url('../img/elmundode/calendarioNac.svg');
-	background-repeat: no-repeat;
-	background-size: contain;
-	padding-top: 35px;
-}
-
-.mostrarHoraNacimiento{
-	width: 200px;
-	border-radius: 10px;
-	border-width: 3px !important;
-	text-align: left;
-	border-color: #f76868 !important;
-}
-
-.mostrarHoraNacimiento ul {
-	margin: auto;
-	display: inline-block;
-	list-style: none;
-	text-indent: 0px;
-}
-
-.mostrarHoraNacimiento li{
-	float: left;
-}
