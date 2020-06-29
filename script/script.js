@@ -231,6 +231,39 @@ function verMundoBebe(idBebe){
 	
 }
 
+function subirImagenBebe(imgNacimiento) {
+	var form = $('#formBebe');
+	var carpeta = "bebe";
+	var infoForm = {imgNacimiento, carpeta};
+	var url_php = 'back/subirImagenBebe.php';
+
+	$.ajax({
+		type:'POST',
+		url: url_php,
+		data: infoForm,
+		dataType: 'json',
+		async: true,
+	})
+	.done(function ajaxHecho(respuesta){
+		console.log(respuesta);
+		  if(respuesta.error !== undefined) {
+			  swal("¡Vaya!", respuesta.error, "error");
+			  return false;
+		  }
+		if(respuesta.subura !== undefined){
+			swal("¡Genial!", respuesta.subida, "success");
+		}
+	})
+	.fail(function ajaxError(e){
+		console.log(e);
+	})
+	.always(function ajaxSiempre(){
+		console.log('Final de la llamada ajax.');
+	})
+	return false;
+}
+
+
 function guardarBebe(){
 	event.preventDefault();
 	var form = $('#formBebe');
@@ -242,11 +275,10 @@ function guardarBebe(){
 		lugarNacimiento: $("input[name ='lugarNacimiento']",form).val(),
 		ciudadNacimiento: $("input[name='ciudadNacimiento']", form).val(),
 		grupoSanguineo: $("select[name ='grupoSanguineo']",form).val(),
-		imgNacimiento: $("input[name='imgNacimiento']", form).val(),
+		//imgNacimiento: $("input[name='imgNacimiento']", form).val(),
 		dedicatoriaBebe: $("#dedicatoriaBebe",form).val()
 	}
-	
-	//$("#msgErrorBebe").hide();
+
 	var url_php = 'back/bebe_guardar.php';
 	
 	$.ajax({
@@ -263,7 +295,11 @@ function guardarBebe(){
 			  return false;
 		  }
 		if(respuesta.redireccion !== undefined){
-			window.location = respuesta.redireccion;
+			var imgNacimiento = $("input[type='file']", form).val();
+			if (imgNacimiento.length > 0 ){
+				subirImagenBebe(imgNacimiento);
+			}
+			//window.location = respuesta.redireccion;
 		}
 	})
 	.fail(function ajaxError(e){
@@ -1505,4 +1541,11 @@ function eliminarVisitante(idVisitas){
 		})
 		return false;		
 	
+}
+
+
+//CREAR
+function noBebe(){
+	swal("¡Vaya!", "No puedes visitar un mundo sin seleccionar su bebé. Selecciona esta opción en el botón 'mundo' del bebé correspondiente." , "error");
+	return false;
 }

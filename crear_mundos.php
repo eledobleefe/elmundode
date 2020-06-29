@@ -22,6 +22,11 @@ $idUsuario = $_SESSION['idUsuario'];
 $nombreUsuario = $_SESSION['nombreUsuario'];
 $misMundos = obtenerBebesUsuario($idUsuario, $nombreUsuario);
 
+if ($_SESSION['rol'] == 'creador') {
+	if(empty($_SESSION['idBebe'])){
+		$noBebe ="onclick='noBebe()'";
+	}
+}
 
 ?>
 
@@ -47,7 +52,7 @@ $misMundos = obtenerBebesUsuario($idUsuario, $nombreUsuario);
 					<hr class="b_verde w-75 m-auto d-block d-lg-none">
 				</li>
 				<li class="nav-item mt-3 my-lg-1 mx-lg-3">
-					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="visitar.php">Visitar</a>
+					<a class="nav-link verde text-uppercase mb-3 mb-lg-0" href="visitar.php" <?php if($noBebe) echo $noBebe ?>>Visitar</a>
 					<hr class="b_verde w-75 m-auto d-block d-lg-none">
 				</li>
 				<li class="nav-item active mt-3 my-lg-1 mx-lg-3">

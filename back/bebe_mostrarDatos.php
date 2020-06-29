@@ -144,4 +144,63 @@ function calcularEdad($fechaProgenitor, $fechaBebe){
     return $calculo;
 }
 
+function mostrarInformacionCrecimiento($idBebe) {
+    try {
+        $conexion = Conexion::conectar();
+        $mostrarInformacionCrecimiento = $conexion->prepare("SELECT * FROM crecimiento WHERE idBebe = '$idBebe' ORDER BY 3 LIMIT 1");
+        $mostrarInformacionCrecimiento->bindParam(':idBebe', $idBebe, PDO::PARAM_INT);
+        $mostrarInformacionCrecimiento->execute();
+
+        if(!empty($mostrarInformacionCrecimiento)) {
+            $infoCrecimiento = $mostrarInformacionCrecimiento->fetch();
+        }
+    } catch(PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
+    return $infoCrecimiento;
+
+    $conexion = Conexion::desconectar();
+}
+
+
+function mostrarInformacionDentadura($idBebe) {
+    try {
+        $conexion = Conexion::conectar();
+        $mostrarInformacionDentadura = $conexion->prepare("SELECT * FROM dentadura WHERE idBebe = '$idBebe' ORDER BY 3, 4");
+        $mostrarInformacionDentadura->bindParam(':idBebe', $idBebe, PDO::PARAM_INT);
+        $mostrarInformacionDentadura->execute();
+
+        if(!empty($mostrarInformacionDentadura)) {
+            $infoDentadura = $mostrarInformacionDentadura->fetchAll();
+        }
+    } catch(PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
+    return $infoDentadura;
+
+    $conexion = Conexion::desconectar();
+}
+
+function mostrarInformacionAnecdotas($idBebe) {
+    try {
+        $conexion = Conexion::conectar();
+        $mostrarInformacionAnecdota = $conexion->prepare("SELECT * FROM anecdota WHERE idBebe = '$idBebe' ORDER BY 3, 4");
+        $mostrarInformacionAnecdota->bindParam(':idBebe', $idBebe, PDO::PARAM_INT);
+        $mostrarInformacionAnecdota->execute();
+
+        if(!empty($mostrarInformacionAnecdota)) {
+            $infoAnecdota = $mostrarInformacionAnecdota->fetchAll();
+        }
+    } catch(PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
+    return $infoAnecdota;
+
+    $conexion = Conexion::desconectar();
+}
+
+
 ?>
