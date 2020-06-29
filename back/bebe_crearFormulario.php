@@ -119,9 +119,9 @@ function crearFormularioBebe() {
                     </textarea>
                     <small id='helpDedicatoria' class='form-text text-muted'>Escribe una dedicatoria para el bebé. Será lo primero que leerá al visitar su mundo.</small>
                 </div>
-                <div class='custom-file my-5 mx-4 w-75 d-block'>
-                    <input type='file' class='custom-file-input' id='imgNacimiento' lang='es'>
-                    <label class='custom-file-label' for='imgNacimiento'>Seleccionar Archivo</label>
+                <div class='form-group my-5 mx-4 w-75 d-block'>
+					<label for='imNacimiento'>¿Alguna imagen que añadir?</label>
+					<input type='file' class='form-control-file my-3' id='imNacimiento' name='imNacimiento'>
                 </div>
                 " . $boton . "
             </form>
